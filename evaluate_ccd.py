@@ -98,7 +98,7 @@ def read_bias(amp, bin):
     print(f"Master bias statistics: mean {mn:.3f}, mode {md:.3f}, stdev {stdev:.3f}, max {max:.3f}, min {min:.3f}")
     masterbias = masterbias.filled(fill_value=mn)
     bias = bias.filled(fill_value=mn)
-    rms = np.std(bias)
+    rms = 2.355*np.std(bias)  # FWHM
     # fig0 = plt.figure(figsize=(8,8), tight_layout=True)
     # ax0 = fig0.add_subplot(1,1,1)
     # ax0.set_xlabel("CCD X [pixel]")
@@ -219,7 +219,7 @@ if __name__ == "__main__":
                 vm = np.append(vm, vmk); sav = np.append(sav, savk)
             _, _, masterflat = process_exposure(a, b, exposures[nexposures//2], masterbias, roi, dxy)
             show_regions(masterflat, roi, dxy, b, dirname, True, False)
-            g, n_rd = gain_noise(sav, vm, rms, a, b, dirname, False)
+            g, n_rd = gain_noise(sav, vm, rms, a, b, dirname, True)
 
 
     sys.exit(0)
